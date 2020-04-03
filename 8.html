@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird（フルスクリーン）</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+    canvas{
+        background-color:#eee;
+    }
+    </style>
+</head>
+<body>
+<p><button onclick="openFullscreen();">フルスクリーン</button></p>
+<div id="fullScreen">
+    <canvas id="canvas" width="500" height="300"></canvas>
+</div>
+
+<script>
+var canvasElement = document.getElementById("fullScreen");
+
+function openFullscreen() {
+    if (canvasElement.requestFullscreen) {
+        //canvasElement.requestFullscreen();
+        canvasElement.webkitRequestFullscreen();
+        console.log('1');
+    } else if (canvasElement.mozRequestFullScreen) { /* Firefox */
+        canvasElement.mozRequestFullScreen();
+        console.log('2');
+    } else if (canvasElement.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        canvasElement.webkitRequestFullscreen();
+        console.log('3');
+    } else if (canvasElement.msRequestFullscreen) { /* IE/Edge */
+        canvasElement.msRequestFullscreen();
+        console.log('4');
+    }
+}
+</script>
+</body>
+</html>

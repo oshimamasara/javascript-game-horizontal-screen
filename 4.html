@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird（端末チェック）</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+    canvas{
+        background-color:#eee;
+    }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="500" height="300"></canvas>
+
+<script>
+function isSmartPhone() {
+    if (navigator.userAgent.match(/iPhone|Android.+Mobile/)){
+        console.log('スマホだ!');
+        //スマホ画面向きの確認
+        if (Math.abs(window.orientation) == 90) {
+            console.log('横向き！ゲーム・スタート');
+        } else {
+            console.log('縦向き！横にしよう！');
+        }
+    } else{
+        console.log('スマホじゃない、PCだ! ゲーム・スタート')
+    };
+}
+isSmartPhone();
+</script>
+</body>
+</html>

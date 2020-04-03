@@ -1,0 +1,173 @@
+<!-- 
+ベース
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+    canvas{
+        background-color:#eee;
+    }
+    body{
+        max-width:900px;
+        margin:0 auto;
+        text-align:center;
+    }
+    .button {
+        display: none;
+        vertical-align: middle;
+        text-align:center;
+        margin:32px;
+    }
+    .button div {
+        display: inline-block;
+        border-radius: 50%;
+    }
+    .button div:hover .up{
+        border: 0.5em solid #e74c3c;
+    }
+    .button div:hover .up:after {
+        border-top: 0.5em solid #e74c3c;
+        border-right: 0.5em solid #e74c3c;
+    }
+    .up {
+        display: inline-block;
+        width: 4em;
+        height: 4em;
+        border: 0.5em solid #333;
+        border-radius: 50%;
+        margin-right: 1.5em;
+    }
+
+    .up:after {
+        content: '';
+        display: inline-block;
+        margin-top: 1.3em;
+        /*margin-left: 0.6em;*/
+        width: 1.2em;
+        height: 1.2em;
+        border-top: 0.5em solid #333;
+        border-right: 0.5em solid #333;
+        -moz-transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+    /*canvasの上にボタンをフロート*/
+    .content{
+        display:inline-block;
+        position:relative;
+    }
+    .content div {
+        position:absolute;
+        bottom:5px;
+        right:5px;
+    }
+    /*canvasの上にボタンをフロート　おわり*/
+    @media (max-width:900px){
+        .button {
+            /*display: inline-block;*/
+            display: inline-block;
+            vertical-align: middle;
+            text-align:center;
+            margin:32px;
+        }
+    }
+    </style>
+</head>
+<body>
+<div class="content">
+    <canvas id="canvas" width="500" height="300"></canvas>
+    <div id="upButton" class="button">
+        <div>
+            <span class="up"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    var cvs = document.getElementById("canvas");
+    var ctx = cvs.getContext("2d");
+
+    var bg = new Image(); //背景
+    var bird = new Image(); //鳥
+    var fg = new Image(); //地面
+    var pipeNorth = new Image(); //ドカン上
+    var pipeSouth = new Image(); //ドカン下
+    
+    bg.src = "bg.png";
+    bird.src = "bird.png";
+    fg.src = "fg.png";
+    pipeNorth.src = "pipeNorth.png";
+    pipeSouth.src = "pipeSouth.png";
+
+    var bX = 30;  //鳥の表示値
+    var bY = 20;  //鳥の表示位置
+   var gap = 100;  //ドカンの縦幅
+   var constant;
+   var score = 0;
+
+    var pipe = [];
+    pipe[0] = {
+        x : cvs.width, //canvas幅
+        y : 0
+    };
+
+    // キーボード操作
+    document.addEventListener("keydown",moveUp);
+    function moveUp(e){
+        bY -= 25;
+    }
+    // ボタン操作
+    var upButton = document.getElementById("upButton");
+    upButton.addEventListener("touchstart", touchButton);
+    function touchButton(e){
+        bY -= 25;
+    }
+
+    function reload() {
+        location.reload();
+    }
+
+    function draw(){
+        ctx.drawImage(bg,0,0);
+        ctx.drawImage(bird,bX,bY);
+        ctx.drawImage(fg,0,cvs.height - fg.height);
+        for(var i=0 ; i < pipe.length; i++){
+            constant = pipeNorth.height+gap;
+            ctx.drawImage(pipeNorth,pipe[i].x,pipe[i].y);
+            ctx.drawImage(pipeSouth,pipe[i].x,pipe[i].y+constant);
+            pipe[i].x--;
+            
+            if( pipe[i].x == 300 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
+                pipe.push({
+                    x : cvs.width,
+                    y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
+                });
+            }
+
+            //ゲームオーバーのパターン
+            if( bX + bird.width >= pipe[i].x && bX <= pipe[i].x + pipeNorth.width && (bY <= pipe[i].y + pipeNorth.height || bY+bird.height >= pipe[i].y+constant) || bY + bird.height >=  cvs.height - fg.height){
+                ctx.fillStyle = "red"; //カラー
+                ctx.fillText("ゲームオーバー", cvs.width/2, cvs.height/2); //表示内容、位置            
+                //setTimeout(reload, 3000);
+            }
+            if(pipe[i].x == bX){
+                score++;
+            }
+        }
+        bY += 1;
+        
+        ctx.fillStyle = "#000"; //カラー
+        ctx.font = "16px"; //大きさ
+        ctx.fillText("点数 : " + score + ' point',10,cvs.height-20); //表示内容、位置
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+</script>
+</body>
+</html>

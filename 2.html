@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird（画面向き）</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+    canvas{
+        background-color:#eee;
+    }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="500" height="300"></canvas>
+
+<script>
+function isSmartPhone() {
+    if (Math.abs(window.orientation) == 90) {
+        console.log('横向き！');
+        console.log('window.orientation: ' + window.orientation);
+        console.log('Math.abs(window.orientation): ' + Math.abs(window.orientation));
+    } else {
+        console.log('縦向き！');
+        console.log('window.orientation: ' + window.orientation);
+        console.log('Math.abs(window.orientation): ' + Math.abs(window.orientation));
+    }
+}
+isSmartPhone();
+</script>
+</body>
+</html>

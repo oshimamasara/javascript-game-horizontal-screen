@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>Flappy Bird（端末チェック）</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style>
+    canvas{
+        background-color:#eee;
+    }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="500" height="300"></canvas>
+
+<script>
+function isSmartPhone() {
+    if (navigator.userAgent.match(/iPhone|Android.+Mobile/)){
+        console.log('スマホだ!');
+    } else{
+        console.log('スマホじゃない、PCだ!')
+    };
+}
+isSmartPhone();
+</script>
+</body>
+</html>
